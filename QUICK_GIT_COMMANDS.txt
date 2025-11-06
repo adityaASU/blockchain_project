@@ -1,0 +1,76 @@
+═══════════════════════════════════════════════════════════
+  🚀 QUICK GIT SETUP - COPY & PASTE THESE COMMANDS
+═══════════════════════════════════════════════════════════
+
+📍 Step 1: Navigate to your project folder
+   cd "c:\ASU Code\SEM 3\Blockchain\Project"
+
+📍 Step 2: Initialize Git
+   git init
+
+📍 Step 3: Add all files
+   git add .
+
+📍 Step 4: Check what will be committed
+   git status
+
+📍 Step 5: Commit
+   git commit -m "Initial commit: Blockchain Supply Chain Provenance System - Checkpoint 1"
+
+📍 Step 6: Add your remote (REPLACE URL!)
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+
+📍 Step 7: Push to GitHub
+   git branch -M main
+   git push -u origin main
+
+═══════════════════════════════════════════════════════════
+  ✅ DONE! Your code is now on GitHub
+═══════════════════════════════════════════════════════════
+
+🔗 View your repo at:
+   https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+
+═══════════════════════════════════════════════════════════
+  🔄 FUTURE UPDATES (After first push)
+═══════════════════════════════════════════════════════════
+
+When you make changes later:
+   git add .
+   git commit -m "Description of changes"
+   git push
+
+═══════════════════════════════════════════════════════════
+  ⚠️ IMPORTANT REMINDERS
+═══════════════════════════════════════════════════════════
+
+✅ Make sure you:
+   - Replace YOUR_USERNAME and YOUR_REPO_NAME with actual values
+   - Have created the repository on GitHub first
+   - Are in the correct project directory
+
+❌ The .gitignore file will automatically prevent committing:
+   - .env (secrets)
+   - node_modules/ (dependencies - too large)
+   - cache/ and artifacts/ (build files)
+
+🔐 Authentication:
+   - Use Personal Access Token instead of password
+   - Get token at: https://github.com/settings/tokens
+   - Select scope: "repo"
+
+═══════════════════════════════════════════════════════════
+  📝 FOR YOUR SUBMISSION
+═══════════════════════════════════════════════════════════
+
+Share this with your professor:
+   Repository URL: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+   
+Get latest commit hash:
+   git log -1 --format=%H
+
+═══════════════════════════════════════════════════════════
+
+💡 Need detailed help? See GIT_SETUP.md
+🆘 Troubleshooting? See GIT_SETUP.md "Troubleshooting" section
+
