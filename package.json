@@ -9,10 +9,14 @@
     "test:coverage": "hardhat coverage",
     "deploy:local": "hardhat run scripts/deploy.js --network localhost",
     "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "setup:demo": "hardhat run scripts/setup-demo.js --network localhost",
     "node": "hardhat node",
     "clean": "hardhat clean",
     "lint": "solhint 'contracts/**/*.sol'",
-    "format": "prettier --write 'contracts/**/*.sol' 'scripts/**/*.js' 'test/**/*.js'"
+    "format": "prettier --write 'contracts/**/*.sol' 'scripts/**/*.js' 'test/**/*.js'",
+    "install:all": "npm install && cd api && npm install && cd ../web && npm install && cd ..",
+    "api": "cd api && npm start",
+    "frontend": "cd web && npm start"
   },
   "keywords": [
     "blockchain",
