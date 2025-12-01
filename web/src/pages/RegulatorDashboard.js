@@ -54,12 +54,12 @@ const RegulatorDashboard = () => {
 
     try {
       await verifyProduct(productId, verifyData.certificationHash, verifyData.note);
-      setSuccess('Product verified successfully!');
+      setSuccess('Product verified successfully! Refreshing...');
       setShowVerifyForm(false);
       setVerifyData({ certificationHash: '', note: '' });
       
-      // Reload product data
-      setTimeout(() => handleSearch(), 2000);
+      // Immediate reload
+      await handleSearch();
     } catch (err) {
       setError('Verification failed: ' + err.message);
     } finally {
@@ -70,7 +70,7 @@ const RegulatorDashboard = () => {
   return (
     <div className="page container">
       <div className="page-header">
-        <h2>✓ Regulator Dashboard</h2>
+        <h2>Regulator Dashboard</h2>
         <p>Verify products and issue certifications</p>
       </div>
 

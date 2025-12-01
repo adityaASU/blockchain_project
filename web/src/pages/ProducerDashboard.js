@@ -29,6 +29,7 @@ const ProducerDashboard = () => {
   const loadWalletAndProducts = async () => {
     try {
       setLoading(true);
+      setError(''); // Clear previous errors
       const [walletData, walletsData] = await Promise.all([
         getWalletByRole('producer'),
         getWallets()
@@ -71,8 +72,8 @@ const ProducerDashboard = () => {
       });
       setShowForm(false);
       
-      // Reload products
-      setTimeout(() => loadWalletAndProducts(), 2000);
+      // Immediate reload
+      await loadWalletAndProducts();
     } catch (err) {
       setError('Failed to register product: ' + err.message);
     } finally {
@@ -99,11 +100,12 @@ const ProducerDashboard = () => {
 
     try {
       await transferProduct(productId, transferTo, 'producer');
-      setSuccess('Product transferred successfully!');
+      setSuccess('Product transferred successfully! Refreshing...');
       setShowTransferForm(false);
       setSelectedProduct(null);
       setTransferTo('');
-      setTimeout(() => loadWalletAndProducts(), 2000);
+      // Immediate refresh without setTimeout
+      await loadWalletAndProducts();
     } catch (err) {
       setError('Transfer failed: ' + err.message);
     } finally {
@@ -118,8 +120,9 @@ const ProducerDashboard = () => {
 
     try {
       await updateProductStatus(productId, status, note, 'producer');
-      setSuccess('Status updated successfully!');
-      setTimeout(() => loadWalletAndProducts(), 2000);
+      setSuccess('Status updated successfully! Refreshing...');
+      // Immediate refresh
+      await loadWalletAndProducts();
     } catch (err) {
       setError('Status update failed: ' + err.message);
     } finally {
@@ -130,13 +133,21 @@ const ProducerDashboard = () => {
   return (
     <div className="page container">
       <div className="page-header">
-        <h2>🏭 Producer Dashboard</h2>
+        <h2>Producer Dashboard</h2>
         <p>Register new products and manage your inventory</p>
         {walletAddress && (
-          <div style={{ marginTop: '12px' }}>
+          <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span className="badge badge-info">
-              Wallet: {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
             </span>
+            <button 
+              className="btn btn-secondary" 
+              style={{ fontSize: '12px', padding: '6px 12px' }}
+              onClick={loadWalletAndProducts}
+              disabled={loading}
+            >
+              Refresh
+            </button>
           </div>
         )}
       </div>
@@ -157,20 +168,20 @@ const ProducerDashboard = () => {
 
       <div className="dashboard-grid">
         <div className="stat-card">
-          <div className="stat-card-header">
-            <div className="stat-card-icon" style={{ background: '#e6f7ff' }}>
-              📦
-            </div>
+          <div className="stat-card-icon" style={{ background: '#dbeafe', color: '#1e40af' }}>
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+            </svg>
           </div>
           <div className="stat-card-value">{products.length}</div>
           <div className="stat-card-label">Total Products</div>
         </div>
 
         <div className="stat-card">
-          <div className="stat-card-header">
-            <div className="stat-card-icon" style={{ background: '#f0f9ff' }}>
-              ✓
-            </div>
+          <div className="stat-card-icon" style={{ background: '#d1fae5', color: '#065f46' }}>
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+            </svg>
           </div>
           <div className="stat-card-value">
             {products.filter(p => p.status === 5).length}
@@ -179,10 +190,11 @@ const ProducerDashboard = () => {
         </div>
 
         <div className="stat-card">
-          <div className="stat-card-header">
-            <div className="stat-card-icon" style={{ background: '#fef3c7' }}>
-              🚀
-            </div>
+          <div className="stat-card-icon" style={{ background: '#fef3c7', color: '#92400e' }}>
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+              <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"/>
+            </svg>
           </div>
           <div className="stat-card-value">
             {products.filter(p => p.status >= 2).length}

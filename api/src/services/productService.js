@@ -342,14 +342,43 @@ class ProductService {
         };
       
       case 'status':
+        // Safely convert newStatus to number
+        // Event has: productId, updatedBy, oldStatus, newStatus, timestamp, notes
+        let newStatusNum = 0;
+        let oldStatusNum = 0;
+        
+        // Get newStatus (the status it changed TO)
+        if (event.args && event.args.newStatus !== undefined) {
+          if (typeof event.args.newStatus === 'bigint') {
+            newStatusNum = Number(event.args.newStatus);
+          } else if (typeof event.args.newStatus === 'object' && event.args.newStatus.toNumber) {
+            newStatusNum = event.args.newStatus.toNumber();
+          } else {
+            newStatusNum = Number(event.args.newStatus);
+          }
+        }
+        
+        // Get oldStatus (the status it changed FROM)
+        if (event.args && event.args.oldStatus !== undefined) {
+          if (typeof event.args.oldStatus === 'bigint') {
+            oldStatusNum = Number(event.args.oldStatus);
+          } else if (typeof event.args.oldStatus === 'object' && event.args.oldStatus.toNumber) {
+            oldStatusNum = event.args.oldStatus.toNumber();
+          } else {
+            oldStatusNum = Number(event.args.oldStatus);
+          }
+        }
+        
         return {
           ...baseEvent,
           type: 'Status Updated',
-          description: `Status changed to: ${this._getStatusName(event.args.status)}`,
+          description: `Status changed from ${this._getStatusName(oldStatusNum)} to ${this._getStatusName(newStatusNum)}`,
           details: {
-            status: event.args.status,
-            statusName: this._getStatusName(event.args.status),
-            note: event.args.note,
+            oldStatus: oldStatusNum,
+            oldStatusName: this._getStatusName(oldStatusNum),
+            newStatus: newStatusNum,
+            newStatusName: this._getStatusName(newStatusNum),
+            notes: event.args.notes,  // Note: it's 'notes' (plural) in the event
             updatedBy: event.args.updatedBy,
           },
         };
@@ -376,6 +405,23 @@ class ProductService {
    * @private
    */
   _getStatusName(status) {
+    // Convert BigInt/BigNumber to regular number
+    let statusNum = 0;
+    
+    if (status === undefined || status === null) {
+      return 'Unknown';
+    }
+    
+    if (typeof status === 'bigint') {
+      statusNum = Number(status);
+    } else if (typeof status === 'object' && status.toNumber) {
+      statusNum = status.toNumber();
+    } else if (typeof status === 'number') {
+      statusNum = status;
+    } else {
+      statusNum = Number(status);
+    }
+    
     const statusNames = {
       0: 'Created',
       1: 'Dispatched',
@@ -385,7 +431,7 @@ class ProductService {
       5: 'Verified',
       6: 'Exception',
     };
-    return statusNames[status] || 'Unknown';
+    return statusNames[statusNum] || 'Unknown';
   }
 
   /**

@@ -19,7 +19,7 @@ function App() {
         <header className="app-header">
           <div className="container header-content">
             <Link to="/" className="logo">
-              <h1>🔗 Supply Chain Provenance</h1>
+              <h1>Supply Chain Provenance</h1>
             </Link>
             
             <nav className="nav-menu">
@@ -46,7 +46,7 @@ function App() {
 
         <footer className="app-footer">
           <div className="container">
-            <p>© 2024 Blockchain Supply Chain Provenance System</p>
+            <p>© 2025 Blockchain Supply Chain Provenance System</p>
             <p className="footer-tech">Built with Ethereum, Solidity, React & Express</p>
           </div>
         </footer>
