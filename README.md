@@ -4,7 +4,7 @@
 
 A decentralized supply chain provenance tracking system built on Ethereum that enables transparent, tamper-evident tracking of products from origin to consumer. The system uses smart contracts to create an immutable chain of custody, ensuring traceability and authenticity across all supply chain participants.
 
-### Features
+### Key Features
 - Immutable Product Registration
 - Role-Based Access Control (Producer, Distributor, Retailer, Regulator, Consumer)
 - Ownership Transfer Tracking
